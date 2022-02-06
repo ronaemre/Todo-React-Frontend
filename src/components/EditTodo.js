@@ -1,17 +1,27 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import axios from "axios";
 
-const EditTodo = ({ todo }) => {
+import { getTodos } from "../api/api";
+
+const EditTodo = ({ todo, setTodos }) => {
     const [description, setDescription] = useState(todo.description);
     const [todoname, setName] = useState(todo.todoname);
     const [todoupdatedate, setDate] = useState(todo.todoupdatedate);
+    const [todochecked, setChecked] = useState(todo.todochecked);
+
+
+
+    const EditTodo = (e) => {
+        updateDescription(e)
+        getTodos(setTodos)
+    }
 
     //edit description function
 
     const updateDescription = async e => {
         e.preventDefault();
         try {
-            const body = { description, todoname, todoupdatedate };
+            const body = { description, todoname, todoupdatedate, todochecked };
 
             const response = await fetch(
                 `http://localhost:5000/todos/${todo.todo_id}`,
@@ -84,6 +94,14 @@ const EditTodo = ({ todo }) => {
                                 value={todoupdatedate}
                                 onChange={e => setDate(e.target.value)}
                             />
+                            Done/Not
+                            <input
+                                type="checkbox"
+                                name="uncontrolled"
+                                checked={todochecked}
+                                onClick={e => setChecked(!todochecked)}
+                            ></input>
+
                         </div>
 
                         <div className="modal-footer">
@@ -91,7 +109,7 @@ const EditTodo = ({ todo }) => {
                                 type="button"
                                 className="btn btn-warning"
                                 data-dismiss="modal"
-                                onClick={e => updateDescription(e)}
+                                onClick={e => EditTodo(e)}
                             >
                                 Edit
                             </button>

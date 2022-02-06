@@ -1,6 +1,7 @@
 import React, { Fragment, useEffect, useState } from "react";
 
 import EditTodo from "./EditTodo";
+import { getTodos } from "../api/api";
 
 const ListTodos = () => {
     const [todos, setTodos] = useState([]);
@@ -19,19 +20,19 @@ const ListTodos = () => {
         }
     };
 
-    const getTodos = async () => {
-        try {
-            const response = await fetch("http://localhost:5000/todos");
-            const jsonData = await response.json();
-
-            setTodos(jsonData);
-        } catch (err) {
-            console.error(err.message);
-        }
-    };
+    /*     const getTodos = async () => {
+            try {
+                const response = await fetch("http://localhost:5000/todos");
+                const jsonData = await response.json();
+    
+                setTodos(jsonData);
+            } catch (err) {
+                console.error(err.message);
+            }
+        }; */
 
     useEffect(() => {
-        getTodos();
+        getTodos(setTodos);
     }, []);
 
     console.log(todos);
@@ -44,6 +45,7 @@ const ListTodos = () => {
                     <tr>
                         <th>Added Date</th>
                         <th>Updating Date</th>
+                        <th>Status</th>
                         <th>Name</th>
                         <th>Description</th>
                         <th>Edit</th>
@@ -56,11 +58,12 @@ const ListTodos = () => {
                         <tr key={todo.todo_id}>
                             <td>{todo.tododate}</td>
                             <td>{todo.todoupdatedate ? todo.todoupdatedate : "There is no update"}</td>
+                            <td>{todo.todochecked === true && "done"}</td>
                             <td>{todo.todoname}</td>
                             {/*   <td>{todo.todoname == "important" && <p>sadfsdaf </p>}</td> */}
                             <td>{todo.description}</td>
                             <td>
-                                <EditTodo todo={todo} />
+                                <EditTodo todo={todo} setTodos={setTodos} />
                             </td>
                             <td>
                                 <button
