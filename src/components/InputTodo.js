@@ -1,77 +1,12 @@
-import React, { Fragment, useState } from "react";
-import axios from "axios";
+import React, { useState } from "react";
+import { addTodo } from "../api/api"
 
-const InputTodo = () => {
-    /*   const [description, setDescription] = useState("");
-  
-      const onSubmitForm = async e => {
-          e.preventDefault();
-          try {
-              const body = { description };
-              const response = await fetch("http://localhost:5000/todos", {
-                  method: "POST",
-                  headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify(body)
-              });
-              console.log(response)
-              window.location = "/";
-          } catch (err) {
-              console.error(err.message);
-          }
-      };
-  
-      return (
-          <Fragment>
-              <h1 className="text-center mt-5">Todo List</h1>
-              <form className="d-flex mt-5" onSubmit={onSubmitForm}>
-                  <input
-                      type="text"
-                      className="form-control"
-                      value={description}
-                      onChange={e => setDescription(e.target.value)}
-                  />
-                  <input
-                      type="text"
-                      className="form-control"
-                      value={description}
-                      onChange={e => setDescription(e.target.value)}
-                  />
-  
-                  <button className="btn btn-success">Add</button>
-              </form>
-          </Fragment>
-      ); */
+const InputTodo = ({ setTodos }) => {
+
     const [tododate, setDate] = useState("");
     const [todoname, setName] = useState("");
     const [description, setDescription] = useState("");
-    const [saved, setSaved] = useState("")
-    /* 
-        const current = new Date();
-        const date = `${current.getDate()}/${current.getMonth() + 1}/${current.getFullYear()}`; */
 
-    /*     function getDate() {
-           const current = new Date();
-           const date = `${current.getDate()}/${current.getMonth() + 1}/${current.getFullYear()}`;
-       } */
-
-
-    async function addTodo() {
-        /*    console.log(name, details) */
-        const formData = new FormData();
-        formData.append('tododate', tododate);
-        formData.append('name', todoname);
-        formData.append('details', description);
-        const result = await axios.post(`http://localhost:5000/todos`, {
-            tododate,
-            todoname,
-            description,
-        });
-
-        setSaved("Succesfully")
-        /* alert("Todo Saved") */
-        /*   setTodosHandler({ name, details }) */
-        window.location = "/"
-    }
 
     return (
         <div className="container" style={{ backgroundColor: "pink", borderRadius: "20px", marginTop: "30px" }} data-testid="container">
@@ -98,9 +33,9 @@ const InputTodo = () => {
                         <input type="date" className="form-control" data-testid="details_input" name="date" onChange={(e) => setDate(e.target.value)} />
                     </div>
                 </div>
-                <h3 data-testid="error" id="saved-succesfuly">{saved}</h3>
+
                 <input
-                    onClick={addTodo}
+                    onClick={() => addTodo(tododate, todoname, description, setTodos)}
                     type="submit"
                     className="btn btn-success btn-block"
                     value="Add Todo"

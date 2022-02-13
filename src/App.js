@@ -1,15 +1,16 @@
-import React, { Fragment } from 'react';
-import './App.css';
+import React, { Fragment, useState } from 'react';
+
 
 import InputTodo from "./components/InputTodo"
 import ListTodos from './components/ListTodos';
 
 function App() {
+  const [todos, setTodos] = useState([]);
   return (
     <Fragment>
-      <div className="container">
-        <InputTodo />
-        <ListTodos />
+      <div >
+        <InputTodo setTodos={setTodos} />
+        <ListTodos todos={todos} setTodos={setTodos} />
       </div>
 
     </Fragment>
